@@ -1,0 +1,87 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'manager/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-tools">
+                <form action="" method="GET" class="form-inline">
+                    <select name="select_group" class="form-control" id="select-group">
+                        <option value="none"> -- Groups --</option>
+                        {% for group in groups %}
+                            <option value="{{ group.name | lower }}"
+                                    {% if request.GET.select_group == group.name.lower %}selected{% endif %}>{{ group.name | upper }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="select_order" class="form-control" id="select-order">
+                        <option value="none"> -- Orders --</option>
+                        {% for order in orders %}
+                            <option value="{{ order.name | lower }}"
+                                    {% if request.GET.select_order == order.name.lower %}selected{% endif %}>{{ order.name | upper }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="criteria" class="form-control" maxlength="20"
+                           placeholder="Filter"
+                           value="{% if request.GET.criteria %}{{ request.GET.criteria }}{% endif %}">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    <a href="{% url 'manager:dish_create' %}" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                </form>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Active</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for dish in object_list %}
+                        <tr onclick=" location='{% url 'manager:dish_update' pk=dish.id %}'" class="tr-link">
+                            <td>{{ dish.name }}</td>
+                            <td>{{ dish.code }}</td>
+                            <td>{{ dish.order }}</td>
+                            <td>{{ dish.created_at }}</td>
+                            <td>{{ dish.active }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if is_paginated %}
+                <div class="box-footer clearfix text-center">
+                    <ul class="pagination pagination-sm no-margin">
+                        {% if page_obj.has_previous %}
+                            <a href="{% url 'manager:dishes' %}?page={{ page_obj.previous_page_number }}{% if request.GET.select_group %}&select_group={{ request.GET.select_group }}{% endif %}{% if request.GET.select_order %}&select_order={{ request.GET.select_order }}{% endif %}{% if request.GET.criteria %}&criteria={{ request.GET.criteria }}{% endif %}">Previous</a>
+                        {% endif %}
+                        <span class="current">
+                                    Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                                </span>
+                        {% if page_obj.has_next %}
+                            <a href="{% url 'manager:dishes' %}?page={{ page_obj.next_page_number }}{% if request.GET.select_group %}&select_group={{ request.GET.select_group }}{% endif %}{% if request.GET.select_order %}&select_order={{ request.GET.select_order }}{% endif %}{% if request.GET.criteria %}&criteria={{ request.GET.criteria }}{% endif %}">Next</a>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_script_bottom %}
+    <script src="{% static 'js/dish_list.js' %}"></script>
+{% endblock %}

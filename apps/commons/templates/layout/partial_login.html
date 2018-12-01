@@ -1,0 +1,7 @@
+{% if user.is_authenticated %}
+    <li><a href="/admin/" target="_blank"> <i class="fa fa-database fa-lg"></i> Admin</a></li>
+    <li><a href="{% url 'access:logout' %}"> <i class="fa fa-sign-out fa-lg"></i> Log out</a></li>
+    <li><a href="javascript:void(0)"> {{ user }}</a></li>
+{% else %}
+    <li><a href="{% url 'access:login' %}"><i class="fa fa-sign-in fa-lg"></i> Sign in</a></li>
+{% endif %}

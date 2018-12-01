@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cornershop's Backend Test</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        .container {
+            margin: 0 auto;
+            width: 600px;
+        }
+
+        table {
+            width: 100%;
+            page-break-inside: auto;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+
+        table th,
+        table td, .resumen table td {
+            border: 1px solid #ddd !important;
+            margin: 0 !important;
+            padding: 5px;
+        }
+
+        ol {
+            float: right;
+            text-align: right;
+        }
+
+        ol > li {
+            list-style: none;
+        }
+
+        .text-footer {
+            border-top: 1px solid #ddd !important;
+            padding-top: 5px;
+            text-align: center;
+            font-size: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <p>
+        Check the menu of day: <br>
+        <a href="https://nora.cornershop.io/menu/{{ uuid }}/">https://nora.cornershop.io/menu/{{ uuid }}</a> <br>
+    
+        <i>Test link: </i> <a href="http://localhost:8000/menu/{{ uuid }}/">http://localhost:8000/menu/{{ uuid }}</a> <br>
+
+        Sincerely, <br>
+        Cornershop's Team
+    </p>
+
+    <p class="text-footer">
+        Cornershop's Backend Test {% now 'd/m/Y H:i' %}
+    </p>
+</div>
+</body>
+</html>

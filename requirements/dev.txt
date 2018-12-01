@@ -1,0 +1,7 @@
+# Importing from base.txt
+-r base.txt
+
+coverage
+
+# http://django-debug-toolbar.readthedocs.org/
+django-debug-toolbar

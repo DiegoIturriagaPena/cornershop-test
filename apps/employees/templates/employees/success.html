@@ -1,0 +1,30 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'employees/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h2 class="text-center">Cornershop's Backend Test</h2>
+        <img src="{% static 'images/food.jpg' %}" alt="" class="img-responsive">
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'layout/messages.html' %}
+            <h1 class="text-center">Order ID: {{ order.id }} <br> .................... </h1>
+            <p class="text-center">Thanks for using our services</p>
+            <p class="text-center"> Sincerely, <br>
+                Cornershop's Team
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

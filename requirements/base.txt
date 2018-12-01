@@ -1,0 +1,7 @@
+django
+Pillow
+celery
+redis
+pandas
+djangorestframework
+slackclient

@@ -1,0 +1,70 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block styles %}
+    <style>
+        hr:last-of-type {
+            display: none;
+        }
+
+        .div-actions {
+            border-top: 1px solid #EEEEEE;
+            padding-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar %}
+    {% include 'employees/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            {% include 'layout/messages.html' %}
+            <form method="post" novalidate>
+                <legend>Customize {{ option.name }}</legend>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ employee_form.as_p }}
+                    </div>
+                </div>
+                <hr>
+                {{ formset.management_form }}
+                {% for frm in formset %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ frm.as_p }} <br>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col-md-12 div-actions">
+
+                        {% if order.state == 'Pending' %}
+                            <button type="submit" class="btn btn-primary pull-right">
+                                {% if object.pk %}
+                                    Update
+                                {% else %}
+                                    Save
+                                {% endif %}
+                            </button>
+                        {% endif %}
+                        <a href="{% url 'employees:home' %}" class="btn btn-default">Cancel</a>
+                        {% if order.state == 'Draft' and  order.pk %}
+                            <button type="submit" class="btn btn-success" name="btn_confirm">Confirm</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

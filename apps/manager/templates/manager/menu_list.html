@@ -1,0 +1,77 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'manager/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'layout/messages.html' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-tools">
+                <form action="" method="GET" class="form-inline">
+                    <input type="text" name="criteria" class="form-control" maxlength="20"
+                           placeholder="Filter"
+                           value="{% if request.GET.criteria %}{{ request.GET.criteria }}{% endif %}">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    <a href="{% url 'manager:menu_create' %}" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                </form>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Chef</th>
+                        <th>State</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in object_list %}
+                        <tr onclick=" location='{% url 'manager:menu_update' pk=obj.id %}'" class="tr-link">
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.chef }}</td>
+                            <td>{{ obj.uuid }}</td>
+                            <td>
+                                <span class="label {% if obj.state == 'Draft' %}label-danger{% else %}label-success{% endif %}">{{ obj.state }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if is_paginated %}
+                <div class="box-footer clearfix text-center">
+                    <ul class="pagination pagination-sm no-margin">
+                        {% if page_obj.has_previous %}
+                            <a href="{% url 'manager:menu_list' %}?page={{ page_obj.previous_page_number }}{% if request.GET.criteria %}&criteria={{ request.GET.criteria }}{% endif %}">Previous</a>
+                        {% endif %}
+                        <span class="current">
+                            Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="{% url 'manager:menu_list' %}?page={{ page_obj.next_page_number }}{% if request.GET.criteria %}&criteria={{ request.GET.criteria }}{% endif %}">Next</a>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_script_bottom %}
+    <script src="{%  static 'js/menu_list.js' %}"></script>
+{% endblock %}

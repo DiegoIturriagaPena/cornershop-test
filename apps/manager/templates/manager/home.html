@@ -1,0 +1,15 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'manager/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Menu Admin</h1>
+{% endblock %}

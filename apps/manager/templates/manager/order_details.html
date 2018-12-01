@@ -1,0 +1,62 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'manager/navbar.html' %}
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'vendors/sweetalert/sweetalert2.min.css' %}">
+    <style>
+        ul {
+            list-style: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row" id="order-wrapper">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Order #{{ object.id }}</div>
+                <div class="panel-body text-center">
+                    <h4>{{ order.employee }}</h4>
+                    <h5><i class="fa fa-calendar-check-o"></i> {{ order.created_at }}</h5>
+                    <u>
+                        {% for detail in object.details.all %}
+                            <li style="list-style: none;">
+                                {{ detail.dish }} -- ({{ detail.version }})
+                            </li>
+                        {% endfor %}
+                    </u>
+                    <br>
+                    <p>
+                        <span class="label label-info">{{ object.state }}</span>
+                    </p>
+                </div>
+                {% if object.state == 'Pending' %}
+                    <div class="panel-footer text-right">
+                        <button type="button" class="btn btn-primary" id="btn-show-modal"
+                                data-order-id="{{ object.id }}">
+                            Change state
+                        </button>
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_script_bottom %}
+    <script src="{% static 'vendors/sweetalert/sweetalert2.all.js' %}"></script>
+    <script src="{% static 'vendors/js-cookie/js.cookie.js' %}"></script>
+    <script src="{% static 'js/order_details.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'employees/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h2 class="text-center">Cornershop's Backend Test</h2>
+        <img src="{% static 'images/food.jpg' %}" alt="" class="img-responsive">
+    </div>
+
+    <div class="row">
+    <h1 class="text-center">MENU
+       {% comment %} {% if menu_options %}
+            <span>{{ menu_options.0.menu.name }}</span>
+        {% endif %}{% endcomment %}
+        <br> .................
+    </h1>
+    {% include 'layout/messages.html' %}
+    {% if menu_options %}
+            {% for obj in menu_options %}
+                <div class="col-lg-4 text-center card">
+                    <img class="img-circle"
+                         src="{% static 'images/dish-1.png' %}"
+                         alt="Generic placeholder image" width="140" height="140">
+                    <h2>{{ obj.option.name }}</h2>
+                    <p>{{ obj.option.chef_recommendations | truncatechars:120 }}</p>
+                    <ul class="text-center" style="padding: 0; margin: 0">
+                        {% for obj in obj.option.options.all %}
+                            <li>
+                                <strong>{{ obj.dish }}</strong> <br>
+                                <i>{{ obj.dish.ingredients }}</i>
+                            </li><br>
+                        {% endfor %}
+                    </ul>
+                    <p>
+                        <a class="btn btn-default" href="{% url 'employees:custom_order' option_id=obj.option.id %}"
+                          role="button">Customize »</a>
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+        <p class="text-center">Today's menu has not been created</p>
+    {% endif %}
+    </div>
+
+{% endblock %}

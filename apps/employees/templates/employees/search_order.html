@@ -1,0 +1,46 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {{ block.super }} {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'employees/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row" id="search-wrapper">
+        <div class="col-md-4 col-md-offset-4">
+            <form method="post" novalidate>
+                <legend>Check your order</legend>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <div>
+                <br>
+                {% include 'layout/messages.html' %}
+            </div>
+            {% if order %}
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>{{ order.employee }} </h3>
+                        <h5>{{ order.created_at }}</h5>
+                        {% for detail in order.details.all %}
+                            <p>
+                                {{ detail.dish }}
+                                {% if detail.specification %}
+                                    ({{ detail.specification }})
+                                {% endif %}
+                            </p>
+                        {% endfor %}
+                    <p><b>State:</b> <span class="label label-info">{{ order.state }}</span></p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+.errorlist{
+    color: #c00808;
+}
+
+.tr-link:hover > td {
+    cursor: pointer;
+}
+
+ul li{
+    list-style: none;
+}
+.card{
+    margin-bottom: 10px;
+}
+.name-menu{
+    font-size: 14px !important;
+}

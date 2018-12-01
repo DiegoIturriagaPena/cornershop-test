@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'layout/meta.html' %}
+
+    <title>Cornershop's | Login</title>
+
+    {% include 'layout/global_stylesheets.html' %}
+
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+    <link href="{% static 'css/cornershop.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+    <form class="form-signin" method="post" novalidate>
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign up</h2>
+        {{ form.as_table }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        {% if form.non_field_errors %}
+            <br>
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Error!</strong> <br>
+                <ul class='form-errors'>
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <p class="text-center">
+            <br>
+            <a href="{% url 'access:login' %}">Already have an account? Sign in <i class="fa fa-pull-right"></i> </a>
+        </p>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
